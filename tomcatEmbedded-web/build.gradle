@@ -1,0 +1,28 @@
+apply plugin: 'war'
+
+dependencies {
+   compile('com.sun.jersey:jersey-json:1.9')
+}
+
+war {
+
+  manifest {
+      attributes 'Main-Class': 'com.tomcatEmbedded.exec.TomcatServer'
+  }
+
+  from new File(project(':tomcatEmbedded-exec').buildDir, 'classes/main/')
+
+  from new File(project(':tomcatEmbedded-exec').buildDir, 'resources/main')  
+
+  into(new File('libs')){
+     from new File(project(':tomcatEmbedded-exec').buildDir, 'lib')
+  }
+  
+  into(new File('conf')){
+     from new File(project(':tomcatEmbedded-exec').buildDir, 'resources/main/context.xml')
+  }
+  
+  into(new File('conf')){
+     from new File(project(':tomcatEmbedded-exec').buildDir, 'resources/main/server.xml')
+  }
+}
